@@ -1,0 +1,29 @@
+npm install @nuxtjs/composition-api
+nuxt.config.jsのbuildModulesに @nuxtjs/composition-api/module を追加
+npm install babel-preset-vca-jsx --save-dev
+shim-tsx.d.tsをルートに追加
+`
+  import Vue, { VNode } from 'vue';
+  import { ComponentRenderProxy } from '@vue/composition-api';
+
+  declare global {
+    namespace JSX {
+      interface Element extends VNode {}
+      interface ElementClass extends ComponentRenderProxy {}
+      interface ElementAttributesProperty {
+        $props: any; // specify the property name to use
+      }
+      interface IntrinsicElements {
+        [elem: string]: any;
+      }
+    }
+  }
+`
+
+tsconfig.jsonに "jsx": "preserve" を追加
+
+storybookの導入(post css)
+npm install --save-dev @nuxtjs/storybook postcss@latest
+npm install --save-dev ts-node
+.gitignoreに.nuxt-storybook storybook-static 追加
+npx nuxt storybook
